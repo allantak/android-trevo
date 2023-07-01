@@ -1,16 +1,15 @@
-package com.example.trevo
+package com.example.trevo.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.example.trevo.R
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -20,11 +19,11 @@ class MainActivity : AppCompatActivity() {
 
         var drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
 
-        findViewById<ImageView>(R.id.imageMenu).setOnClickListener(object: View.OnClickListener{
-            override fun onClick(v: View?) {
-                drawerLayout.openDrawer(GravityCompat.START)
-            }
-        })
+        findViewById<ImageView>(R.id.imageMenu).setOnClickListener {
+            drawerLayout.openDrawer(
+                GravityCompat.START
+            )
+        }
 
         var navigationView:NavigationView = findViewById(R.id.navigationView);
         navigationView.itemIconTintList = null;

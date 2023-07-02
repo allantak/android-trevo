@@ -47,7 +47,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/baseline_shopping_bag_24" />
+                android:src="@drawable/baseline_shopping_bag_24"
+                android:onClick="onImageViewClick"/>
         </LinearLayout>
 
         <fragment

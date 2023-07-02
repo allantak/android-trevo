@@ -1,5 +1,6 @@
 package com.example.trevo.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -30,5 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         var navController:NavController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController)
+    }
+
+    fun onImageViewClick(view: View) {
+        val intent = Intent(this, OrderActivity::class.java)
+        startActivity(intent)
     }
 }

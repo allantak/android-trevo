@@ -22,9 +22,9 @@ class ListProductAdapter(private val context: Context, private val products: Lis
             val img = itemView.findViewById<ImageView>(R.id.cardImage)
             title.text = product.nome;
 
-            Glide.with(itemView.context)
-                .load(product.imagem)
-                .into(img)
+          //  Glide.with(itemView.context)
+          //      .load(product.imagem)
+          //      .into(img)
 
         }
     }

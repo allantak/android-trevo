@@ -1,6 +1,7 @@
 package com.example.trevo.ui.recyclerview
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
 import com.example.trevo.MainFragment
 import com.example.trevo.R
 import com.example.trevo.model.Product
@@ -22,9 +24,14 @@ class ListProductAdapter(private val context: Context, private val products: Lis
             val img = itemView.findViewById<ImageView>(R.id.cardImage)
             title.text = product.nome;
 
-          //  Glide.with(itemView.context)
-          //      .load(product.imagem)
-          //      .into(img)
+            try {
+                Glide.with(itemView.context)
+                    .load(product.imagem)
+                    .into(img)
+            }catch ( e: GlideException){
+                Log.d("TAG", e.toString())
+            }
+
 
         }
     }

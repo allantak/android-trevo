@@ -1,17 +1,15 @@
-package com.example.trevo.ui.activity
+package com.example.trevo.view.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trevo.R
 import com.example.trevo.model.Product
-import com.example.trevo.ui.recyclerview.ListProductAdapter
+import com.example.trevo.view.recyclerview.ListProductAdapter
 
 class OrderActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")

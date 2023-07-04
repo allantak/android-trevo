@@ -1,20 +1,16 @@
 package com.example.trevo
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trevo.model.Product
-import com.example.trevo.ui.activity.DetailActivity
-import com.example.trevo.ui.activity.OrderActivity
-import com.example.trevo.ui.recyclerview.ListProductAdapter
-import com.example.trevo.ui.types.OnItemClickListener
+import com.example.trevo.view.activity.DetailActivity
+import com.example.trevo.view.recyclerview.ListProductAdapter
+import com.example.trevo.view.types.OnItemClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +26,7 @@ class MainFragment : Fragment(), OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var products: List<Product>;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +44,10 @@ class MainFragment : Fragment(), OnItemClickListener {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycleView)
 
-        val adapter = ListProductAdapter(requireContext(), products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg")))
-        adapter.setOnItemClickListener(this)
+        products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg"))
+
+        val adapter = ListProductAdapter(requireContext(), products = products)
+        adapter.setOnItemClickListener(this);
 
         recyclerView.adapter = adapter
         return view
@@ -74,12 +73,14 @@ class MainFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        ItemToDetail()
+        ItemToDetail(position)
     }
 
-     fun ItemToDetail() {
+     fun ItemToDetail(position: Int) {
         val context = requireContext()
         val intent = Intent(context, DetailActivity::class.java)
+         intent.putExtra("produto_nome", products[position].nome)
+         intent.putExtra("produto_img", products[position].imagem)
         startActivity(intent)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.trevo.ui.activity
+package com.example.trevo.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

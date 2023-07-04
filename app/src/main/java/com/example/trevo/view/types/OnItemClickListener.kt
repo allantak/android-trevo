@@ -1,4 +1,4 @@
-package com.example.trevo.ui.types
+package com.example.trevo.view.types
 
 interface OnItemClickListener {
     fun onItemClick(position: Int)

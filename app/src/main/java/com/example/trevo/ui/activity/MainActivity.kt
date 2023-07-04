@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navigationView, navController)
     }
 
-    fun onImageViewClick(view: View) {
+    fun MainToOrder(view: View) {
         val intent = Intent(this, OrderActivity::class.java)
         startActivity(intent)
     }

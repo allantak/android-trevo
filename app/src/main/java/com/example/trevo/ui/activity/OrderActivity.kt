@@ -20,12 +20,11 @@ class OrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order)
         val recyclerView = findViewById<RecyclerView>(R.id.recycleView)
         recyclerView.adapter = ListProductAdapter(this, products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg")))
-        val button = findViewById<Button>(R.id.buttonFooter)
-        button.setBackgroundColor(ContextCompat.getColor(this, R.color.orange))
+        val button = findViewById<Button>(R.id.buttonFooterOrder)
 
     }
 
-    fun onImageViewClickBack(view: View) {
+    fun OrderToMain(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }

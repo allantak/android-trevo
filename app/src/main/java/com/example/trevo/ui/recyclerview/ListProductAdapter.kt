@@ -14,11 +14,27 @@ import com.bumptech.glide.load.engine.GlideException
 import com.example.trevo.MainFragment
 import com.example.trevo.R
 import com.example.trevo.model.Product
+import com.example.trevo.ui.types.OnItemClickListener
 
 class ListProductAdapter(private val context: Context, private val products: List<Product>)
     : RecyclerView.Adapter<ListProductAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    private var onItemClickListener: OnItemClickListener? = null
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClickListener?.onItemClick(position)
+                }
+            }
+        }
         fun vincula(product: Product) {
             val title = itemView.findViewById<TextView>(R.id.cardTitle);
             val img = itemView.findViewById<ImageView>(R.id.cardImage)
@@ -31,9 +47,10 @@ class ListProductAdapter(private val context: Context, private val products: Lis
             }catch ( e: GlideException){
                 Log.d("TAG", e.toString())
             }
-
-
         }
+
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):  ViewHolder{
@@ -46,6 +63,7 @@ class ListProductAdapter(private val context: Context, private val products: Lis
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val product = products[position]
+        Log.d("TAG", products[position].toString())
         holder.vincula(product)
     }
 

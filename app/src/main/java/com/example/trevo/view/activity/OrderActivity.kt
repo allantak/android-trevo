@@ -17,7 +17,7 @@ class OrderActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
         val recyclerView = findViewById<RecyclerView>(R.id.recycleView)
-        recyclerView.adapter = ListProductAdapter(this, products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg")))
+        // recyclerView.adapter = ListProductAdapter(this, products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg")))
         val button = findViewById<Button>(R.id.buttonFooterOrder)
 
     }

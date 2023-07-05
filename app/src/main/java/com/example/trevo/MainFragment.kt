@@ -6,11 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trevo.model.Product
+import com.example.trevo.service.MainRetrofit
+import com.example.trevo.service.model.ProductResponse
+import com.example.trevo.service.services.ProductService
 import com.example.trevo.view.activity.DetailActivity
 import com.example.trevo.view.recyclerview.ListProductAdapter
 import com.example.trevo.view.types.OnItemClickListener
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Response
+import java.util.Objects
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,12 +60,24 @@ class MainFragment : Fragment(), OnItemClickListener {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycleView)
 
-        products = listOf(Product("vasco", "http://10.0.0.43:8080/trevo/api/produto/foto/product_tour_15_1595611598493_ADVANCE_2000_VORTEX_16.jpg"))
+        lifecycleScope.launch(IO) {
+            val call: Call<ProductResponse> = MainRetrofit().productService.listProduct()
+            val response: Response<ProductResponse> = call.execute()
 
-        val adapter = ListProductAdapter(requireContext(), products = products)
-        adapter.setOnItemClickListener(this);
+            if (response.isSuccessful) {
+                val productResponse: ProductResponse? = response.body()
 
-        recyclerView.adapter = adapter
+                if (productResponse != null) {
+                    val products: List<Product> = productResponse.content
+                    withContext(Dispatchers.Main) {
+                        val adapter = ListProductAdapter(requireContext(), products)
+                        adapter.setOnItemClickListener(this@MainFragment)
+                        recyclerView.adapter = adapter
+                    }
+                }
+            }
+        }
+
         return view
     }
     companion object {

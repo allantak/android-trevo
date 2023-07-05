@@ -1,8 +1,12 @@
 package com.example.trevo.model
 
 class Product(
-    val nome: String,
-    val imagem: String
+    val idProduto: Int?,
+    val nome: String?,
+    val descricao: String?,
+    val area: String?,
+    val imagem: String?,
+    val culturas: Array<String>?
 ) {
 
 }

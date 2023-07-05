@@ -44,7 +44,7 @@ class ListProductAdapter(private val context: Context, private val products: Lis
 
             try {
                 Glide.with(itemView.context)
-                    .load(product.imagem)
+                    .load("http://172.29.32.1:8080/trevo/api/produto/foto/"+product.imagem)
                     .into(img)
             }catch ( e: GlideException){
                 Log.d("TAG", e.toString())

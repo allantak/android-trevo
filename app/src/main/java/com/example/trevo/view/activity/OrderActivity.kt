@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.trevo.R
 import com.example.trevo.model.Product
 import com.example.trevo.view.recyclerview.ListProductAdapter
+import com.example.trevo.view.types.OnItemClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class OrderActivity : AppCompatActivity() {
+class OrderActivity : AppCompatActivity(), OnItemClickListener {
     var productList = mutableListOf<Product>()
 
     @SuppressLint("MissingInflatedId")
@@ -71,7 +72,15 @@ class OrderActivity : AppCompatActivity() {
     private fun displayProductList() {
         val recyclerView = findViewById<RecyclerView>(R.id.recycleView)
         val productList: List<Product> = productList.toList()
-        recyclerView.adapter = ListProductAdapter(this, products = productList)
+        var adapter = ListProductAdapter(this, products = productList, "cardOrder")
+        adapter.setOnItemClickListener(this@OrderActivity)
+        recyclerView.adapter = adapter
+    }
+
+    override fun onItemClick(position: Int) {
+        productList.remove(productList[position])
+        displayProductList()
+        saveProductList()
     }
 
 }

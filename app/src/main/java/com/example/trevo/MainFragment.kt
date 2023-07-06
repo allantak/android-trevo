@@ -71,7 +71,7 @@ class MainFragment : Fragment(), OnItemClickListener {
                      products = productResponse.content
 
                     withContext(Dispatchers.Main) {
-                        val adapter = ListProductAdapter(requireContext(), products)
+                        val adapter = ListProductAdapter(requireContext(), products, "cardList")
                         adapter.setOnItemClickListener(this@MainFragment)
                         recyclerView.adapter = adapter
                     }

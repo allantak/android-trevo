@@ -6,5 +6,4 @@ class ProductResponse(
     val content: List<Product>,
 ){
 
-
 }

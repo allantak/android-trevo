@@ -68,7 +68,8 @@ class MainFragment : Fragment(), OnItemClickListener {
                 val productResponse: ProductResponse? = response.body()
 
                 if (productResponse != null) {
-                    val products: List<Product> = productResponse.content
+                     products = productResponse.content
+
                     withContext(Dispatchers.Main) {
                         val adapter = ListProductAdapter(requireContext(), products)
                         adapter.setOnItemClickListener(this@MainFragment)
@@ -106,9 +107,16 @@ class MainFragment : Fragment(), OnItemClickListener {
 
      fun ItemToDetail(position: Int) {
         val context = requireContext()
+
+         println(products[position].culturas)
         val intent = Intent(context, DetailActivity::class.java)
          intent.putExtra("produto_nome", products[position].nome)
          intent.putExtra("produto_img", products[position].imagem)
+         intent.putExtra("produto_capa", products[position].capa)
+         intent.putExtra("produto_id", products[position].idProduto.toString())
+         intent.putExtra("produto_descricao", products[position].descricao)
+         intent.putExtra("produto_area", products[position].area)
+         intent.putExtra("produto_culturas", products[position].culturas)
         startActivity(intent)
     }
 }

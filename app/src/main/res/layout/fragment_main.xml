@@ -19,6 +19,7 @@
             android:layout_height="300dp"
             android:src="@drawable/banner"
             app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="fitXY"
             />
 
 

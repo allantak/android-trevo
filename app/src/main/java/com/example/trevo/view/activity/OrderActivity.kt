@@ -111,15 +111,11 @@ class OrderActivity : AppCompatActivity(), OnItemClickListener, OrderDialog.Orde
         MainRetrofit().productService.propose(pedido).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    // Requisição bem-sucedida
-                    val responseBody: Void? = response.body()
                     println("Deu certo")
-                    println(responseBody)
                 } else {
                     // Requisição retornou um código de erro
                     val errorCode: Int = response.code()
                     val errorMessage: String = response.message()
-                    println("Deu errado")
                     println(errorCode)
                     println(errorMessage)
                 }

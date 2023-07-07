@@ -1,32 +1,30 @@
 package com.example.trevo
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.init
 import com.example.trevo.model.Product
 import com.example.trevo.service.MainRetrofit
 import com.example.trevo.service.model.ProductResponse
-import com.example.trevo.service.services.ProductService
 import com.example.trevo.view.activity.DetailActivity
 import com.example.trevo.view.recyclerview.ListProductAdapter
 import com.example.trevo.view.types.OnItemClickListener
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import java.util.Objects
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +41,8 @@ class MainFragment : Fragment(), OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var products: List<Product>;
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var search: androidx.appcompat.widget.SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,36 +51,65 @@ class MainFragment : Fragment(), OnItemClickListener {
             param2 = it.getString(ARG_PARAM2)
         }
 
+        lifecycleScope.launch(IO) {
+            listProduct()
+        }
+
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycleView)
+        recyclerView = view.findViewById(R.id.recycleView)
+        search = view.findViewById(R.id.searchViewProduct)
 
-        lifecycleScope.launch(IO) {
-            val call: Call<ProductResponse> = MainRetrofit().productService.listProduct()
-            val response: Response<ProductResponse> = call.execute()
 
-            if (response.isSuccessful) {
-                val productResponse: ProductResponse? = response.body()
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
 
-                if (productResponse != null) {
-                     products = productResponse.content
+                if (!p0.isNullOrEmpty()) {
 
-                    withContext(Dispatchers.Main) {
-                        val adapter = ListProductAdapter(requireContext(), products, "cardList")
-                        adapter.setOnItemClickListener(this@MainFragment)
-                        recyclerView.adapter = adapter
-                    }
+                    MainRetrofit().productService.getProduct(p0.toInt()).enqueue(object :
+                        Callback<Product> {
+                        override fun onResponse(call: Call<Product>, response: Response<Product>) {
+                            if (response.isSuccessful) {
+                                val product: Product? = response.body()
+                                products = listOf(product) as List<Product>
+                                displayProductList()
+                            } else {
+                                val errorCode: Int = response.code()
+                                val errorMessage: String = response.message()
+                                println(errorCode)
+                                println(errorMessage)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Product>, t: Throwable) {
+                            println(t)
+                        }
+                    })
+
                 }
+
+                return true
             }
-        }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                return false
+            }
+
+        })
+
+
+
 
         return view
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -105,18 +134,48 @@ class MainFragment : Fragment(), OnItemClickListener {
         ItemToDetail(position)
     }
 
-     fun ItemToDetail(position: Int) {
+    fun ItemToDetail(position: Int) {
         val context = requireContext()
 
-         println(products[position].culturas)
+        println(products[position].culturas)
         val intent = Intent(context, DetailActivity::class.java)
-         intent.putExtra("produto_nome", products[position].nome)
-         intent.putExtra("produto_img", products[position].imagem)
-         intent.putExtra("produto_capa", products[position].capa)
-         intent.putExtra("produto_id", products[position].idProduto.toString())
-         intent.putExtra("produto_descricao", products[position].descricao)
-         intent.putExtra("produto_area", products[position].area)
-         intent.putExtra("produto_culturas", products[position].culturas)
+        intent.putExtra("produto_nome", products[position].nome)
+        intent.putExtra("produto_img", products[position].imagem)
+        intent.putExtra("produto_capa", products[position].capa)
+        intent.putExtra("produto_id", products[position].idProduto.toString())
+        intent.putExtra("produto_descricao", products[position].descricao)
+        intent.putExtra("produto_area", products[position].area)
+        intent.putExtra("produto_culturas", products[position].culturas)
         startActivity(intent)
+    }
+
+
+    private fun displayProductList() {
+        var adapter = ListProductAdapter(requireContext(), products = products, "card")
+        adapter.setOnItemClickListener(this@MainFragment)
+        recyclerView?.adapter = adapter
+    }
+
+    private suspend fun listProduct() {
+
+        val call: Call<ProductResponse> = MainRetrofit().productService.listProduct()
+        val response: Response<ProductResponse> = call.execute()
+
+        if (response.isSuccessful) {
+            val productResponse: ProductResponse? = response.body()
+
+            if (productResponse != null) {
+                products = productResponse.content
+
+                withContext(Dispatchers.Main) {
+                    displayProductList()
+                }
+            }
+        }
+
+    }
+
+    interface RefreshClick {
+
     }
 }

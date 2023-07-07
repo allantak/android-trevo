@@ -31,7 +31,7 @@
                 android:src="@drawable/menu" />
 
             <TextView
-                android:id="@+id/textTitle"
+                android:id="@+id/refresh"
                 android:layout_width="284dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"

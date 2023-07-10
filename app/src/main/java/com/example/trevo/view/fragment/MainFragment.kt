@@ -1,4 +1,4 @@
-package com.example.trevo
+package com.example.trevo.view.fragment
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,11 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide.init
+import com.example.trevo.R
 import com.example.trevo.model.Product
 import com.example.trevo.service.MainRetrofit
 import com.example.trevo.service.model.ProductResponse
@@ -36,13 +35,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment(), OnItemClickListener {
+class MainFragment : Fragment(), OnItemClickListener{
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var products: List<Product>;
     private lateinit var recyclerView: RecyclerView
     private lateinit var search: androidx.appcompat.widget.SearchView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,8 +156,8 @@ class MainFragment : Fragment(), OnItemClickListener {
         recyclerView?.adapter = adapter
     }
 
-    private suspend fun listProduct() {
-
+    suspend fun listProduct() {
+        println("Entrou")
         val call: Call<ProductResponse> = MainRetrofit().productService.listProduct()
         val response: Response<ProductResponse> = call.execute()
 
@@ -172,10 +172,6 @@ class MainFragment : Fragment(), OnItemClickListener {
                 }
             }
         }
-
-    }
-
-    interface RefreshClick {
 
     }
 }

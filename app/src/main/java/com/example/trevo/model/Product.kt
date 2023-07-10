@@ -2,7 +2,7 @@ package com.example.trevo.model
 
 class Product(
     val idProduto: Int?,
-    val nome: String?,
+    var nome: String?,
     val descricao: String?,
     val area: String?,
     val imagem: String?,

@@ -31,10 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         var navController:NavController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController)
+
     }
 
     fun MainToOrder(view: View) {
         val intent = Intent(this, OrderActivity::class.java)
         startActivity(intent)
     }
+
+
+
 }

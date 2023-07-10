@@ -28,7 +28,7 @@ class OrderActivity : AppCompatActivity(), OnItemClickListener, OrderDialog.Orde
     var productList = mutableListOf<Product>()
 
     @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order)
         val button = findViewById<Button>(R.id.buttonFooterOrder)

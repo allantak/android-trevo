@@ -11,10 +11,4 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
 
-    <fragment
-        android:id="@+id/moreDetails"
-        android:name="com.example.trevo.view.fragment.DetailFragment"
-        android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
-
 </navigation>

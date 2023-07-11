@@ -6,10 +6,5 @@
         android:title="@string/home"
         />
 
-    <item
-        android:id="@+id/moreDetails"
-        android:title="@string/veja_mais"
-        />
-
 
 </menu>

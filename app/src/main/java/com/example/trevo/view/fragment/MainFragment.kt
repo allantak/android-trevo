@@ -54,7 +54,6 @@ class MainFragment : Fragment(), OnItemClickListener{
         lifecycleScope.launch(IO) {
             listProduct()
         }
-
     }
 
     @SuppressLint("MissingInflatedId")
@@ -65,7 +64,6 @@ class MainFragment : Fragment(), OnItemClickListener{
         val view = inflater.inflate(R.layout.fragment_main, container, false)
         recyclerView = view.findViewById(R.id.recycleView)
         search = view.findViewById(R.id.searchViewProduct)
-
 
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {

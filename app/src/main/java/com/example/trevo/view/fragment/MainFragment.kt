@@ -134,8 +134,6 @@ class MainFragment : Fragment(), OnItemClickListener{
 
     fun ItemToDetail(position: Int) {
         val context = requireContext()
-
-        println(products[position].culturas)
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra("produto_nome", products[position].nome)
         intent.putExtra("produto_img", products[position].imagem)
@@ -155,7 +153,6 @@ class MainFragment : Fragment(), OnItemClickListener{
     }
 
     suspend fun listProduct() {
-        println("Entrou")
         val call: Call<ProductResponse> = MainRetrofit().productService.listProduct()
         val response: Response<ProductResponse> = call.execute()
 

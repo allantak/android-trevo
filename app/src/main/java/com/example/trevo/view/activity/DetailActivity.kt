@@ -58,6 +58,7 @@ class DetailActivity : AppCompatActivity() {
 
     fun MakeOrder(view : View){
         val intent = Intent(this, OrderActivity::class.java)
+        intent.putExtra("produto_id", produtoId)
         intent.putExtra("produto_nome", produtoNome)
         intent.putExtra("produto_img", produtoImg)
         startActivity(intent)

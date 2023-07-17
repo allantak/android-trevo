@@ -35,8 +35,10 @@ class OrderActivity : AppCompatActivity(), OnItemClickListener, OrderDialog.Orde
 
         button.setOnClickListener { openDialog() }
 
+        var produtoId = intent.getStringExtra("produto_id")
         var produtoNome = intent.getStringExtra("produto_nome")
         var produtoImg = intent.getStringExtra("produto_img")
+        println(produtoId)
 
 
         val savedProductList = retrieveSavedProductList()
@@ -45,7 +47,7 @@ class OrderActivity : AppCompatActivity(), OnItemClickListener, OrderDialog.Orde
         }
 
         if (!produtoNome.equals(null) || !produtoImg.equals(null)) {
-            val exampleProduct = Product(null, produtoNome, null, null, produtoImg, null, null)
+            val exampleProduct = Product(produtoId?.toInt(), produtoNome, null, null, produtoImg, null, null)
             productList.add(exampleProduct)
 
         }
@@ -103,15 +105,18 @@ class OrderActivity : AppCompatActivity(), OnItemClickListener, OrderDialog.Orde
     }
 
     private fun onSubmit(name: String?, email: String?, phone: String?){
+        val listProductId = mutableListOf<Int>()
+        productList.forEach { product: Product -> product.idProduto?.let { listProductId.add(it) } }
         val pedido = Pedido(
             cliente = Cliente(name, email, phone),
-            produtos = listOf(productList.size)
+            produtos = listProductId
         )
 
         MainRetrofit().productService.propose(pedido).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    println("Deu certo")
+                    productList.clear()
+                    displayProductList()
                 } else {
                     // Requisição retornou um código de erro
                     val errorCode: Int = response.code()

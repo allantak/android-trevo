@@ -65,6 +65,8 @@ class MainFragment : Fragment(), OnItemClickListener{
         recyclerView = view.findViewById(R.id.recycleView)
         search = view.findViewById(R.id.searchViewProduct)
 
+
+
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -97,13 +99,16 @@ class MainFragment : Fragment(), OnItemClickListener{
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                return false
+                println("chamou")
+                if(p0.isNullOrEmpty()){
+                    lifecycleScope.launch(IO) {
+                        listProduct()
+                    }
+                }
+                return true
             }
 
         })
-
-
-
 
         return view
     }
